@@ -1,0 +1,54 @@
+body {
+  background-color: rgb(185, 185, 185);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: sans-serif;
+  /* width: 100vh; */
+}
+
+.btns {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* adds space between buttons */
+}
+
+.workoutbtn {
+  width: 50vw; /*50% of the viewport width */
+  height: 10vh; /* 50% of the viewport height */
+  border-radius: 10px;
+}
+
+.workoutbtn:hover {
+  cursor: pointer;
+  background-color: azure;
+}
+
+.labels {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.textbox {
+  border-radius: 15px;
+  height: 3vh;
+}
+
+#addWorkoutBtn,
+#homeBtn {
+  border-radius: 15px;
+  height: 5vh;
+}
+
+#addWorkoutBtn:hover,
+#homeBtn:hover {
+  cursor: pointer;
+  background-color: azure;
+}
+
+#targetMuscles {
+  font-weight: bold;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Today's workout</title>
+  </head>
+  <body>
+    <h1 id="targetMuscles"></h1>
+    <a href="index.html"><button id="homeBtn">Home</button></a>
+
+    <div class="labels">
+      <label for="date">Date:</label>
+      <input type="text" id="date" class="textbox" placeholder="DD/MM/YYYY" />
+
+      <h1><b>Log Your Workout</b></h1>
+
+      <label for="exercise">Exercise:</label>
+      <select name="" id="exerciseSelect">
+        <option value=""></option>
+      </select>
+      <input
+        type="text"
+        id="exercise"
+        class="textbox"
+        placeholder="Enter exercise"
+      />
+
+      <label for="reps">Reps:</label>
+      <input type="number" id="reps" class="textbox" placeholder="Enter reps" />
+
+      <label for="sets">Sets:</label>
+      <input type="number" id="sets" class="textbox" placeholder="Enter sets" />
+
+      <button id="addWorkoutBtn">Add Workout</button>
+
+      <h2><b>Workout Log</b></h2>
+      <ul id="workoutList"></ul>
+      <!-- Add a button to clear custom exercises -->
+      <!-- <button id="clearCustomExercisesBtn">Clear Custom Exercises</button> -->
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
