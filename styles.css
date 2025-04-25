@@ -23,7 +23,7 @@ body {
 
 .workoutbtn:hover {
   cursor: pointer;
-  background-color: azure;
+  background-color: rgb(152, 152, 152);
 }
 
 .labels {
@@ -46,7 +46,7 @@ body {
 #addWorkoutBtn:hover,
 #homeBtn:hover {
   cursor: pointer;
-  background-color: azure;
+  background-color: rgb(152, 152, 152);
 }
 
 #targetMuscles {
