@@ -43,8 +43,15 @@ body {
   height: 5vh;
 }
 
+#workoutHistoryBtn {
+  border-radius: 15px;
+  height: 5vh;
+  justify-content: center;
+}
+
 #addWorkoutBtn:hover,
-#homeBtn:hover {
+#homeBtn:hover,
+#workoutHistoryBtn:hover {
   cursor: pointer;
   background-color: rgb(152, 152, 152);
 }

@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // This waits until entire HTML is finished loading before running JS.
   // Delete object error from early test
   ["Back and Biceps", "Chest and Triceps", "Legs and Abs"].forEach((group) => {
     const key = `custom-${group}`;
@@ -9,15 +10,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Language selector
+  // getCurrentLanguage gets what language was most recently picked (saved in localStorage). If none, it defaults to English.
   const getCurrentLanguage = () => localStorage.getItem("language") || "en";
+  // langSelector connects to the dropdown menu on the page where the language is chosen
+  const langSelector = document.getElementById("language-selector");
 
-  // Home page buttons
+  // Finds the home page buttons
   const backBtn = document.getElementById("backbtn");
   const chestBtn = document.getElementById("chestbtn");
   const legsBtn = document.getElementById("legsbtn");
 
+  // The following if statement saves your choice (Back/Chest/Legs) into localStorage upon clicking the button. Later pages will then remember which group you chose.
   if (backBtn && chestBtn && legsBtn) {
+    // the "if" here is a safety check to make sure all buttons are present, meaning we're on the right page.
     backBtn.onclick = () =>
       localStorage.setItem("muscleGroup", "Back and Biceps");
     chestBtn.onclick = () =>
@@ -25,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     legsBtn.onclick = () => localStorage.setItem("muscleGroup", "Legs and Abs");
   }
 
-  // Workout page inputs and buttons
+  // Grabs the workout page inputs and buttons
   const exerciseInput = document.getElementById("exercise");
   const repsInput = document.getElementById("reps");
   const setsInput = document.getElementById("sets");
@@ -105,8 +110,9 @@ document.addEventListener("DOMContentLoaded", () => {
     ],
   };
 
-  // Load exercises based on selected group and language
+  // When a muscle group (like Back and Biceps) is chosen, this fills the dropdown (exerciseSelect) with the default exercises (based on language) and any custom exercises.
   function loadExercises(group) {
+    // "group" is a parameter, or temporary nickname until something is passed in its place. So if Back and Bi gets passed group = Back and Biceps.
     const language = getCurrentLanguage();
     const placeholder =
       language === "ja"
@@ -116,9 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
     exerciseSelect.innerHTML = `<option value="">${placeholder}</option>`;
 
     const exercises =
-      language === "ja"
-        ? defaultJaExercises[group] || []
-        : defaultExercises[group] || [];
+      (language === "ja" ? defaultJaExercises : defaultExercises)[group] || [];
     exercises.forEach((exercise) => {
       const option = document.createElement("option");
       option.value = exercise;
@@ -136,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Display muscle group title
+  // When on the workout page, this shows which muscle group is being trained and loads the exercise list for that group.
   const targetMuscles = document.getElementById("targetMuscles");
   if (targetMuscles) {
     const group = localStorage.getItem("muscleGroup");
@@ -144,16 +148,17 @@ document.addEventListener("DOMContentLoaded", () => {
     loadExercises(group);
   }
 
-  // Update input when selecting from dropdown
+  // When an exercise is selected from the dropdown on the workout page, this automatically fills the exercise input box with that name.
   if (exerciseSelect) {
     exerciseSelect.addEventListener("change", () => {
       exerciseInput.value = exerciseSelect.value;
     });
   }
 
+  // This stores all the workouts added by the user
   let workouts = [];
 
-  // Add workout to list
+  // When "Add Workout" is clicked, this grabs whatever was typed: exercise name, reps, and sets. If everything is filled, it adds the workout to your list (workouts array), clears the input fields, displays the updated workout list, saved the workout to localStorage based on the selected date, and if a new exercise was typed that was not already on the list, it gets added to the dropdown and saves it in localStorage under whatever group it applies to.
   if (addWorkoutBtn) {
     addWorkoutBtn.addEventListener("click", () => {
       const exercise = exerciseInput.value.trim();
@@ -166,6 +171,23 @@ document.addEventListener("DOMContentLoaded", () => {
         repsInput.value = "";
         setsInput.value = "";
         displayWorkouts();
+
+        // Save the workout under the selected date
+        const dateInput = document.getElementById("date");
+        let workoutHistory =
+          JSON.parse(localStorage.getItem("workoutHistory")) || {};
+
+        if (dateInput && dateInput.value) {
+          const date = dateInput.value;
+          if (!workoutHistory[date]) {
+            workoutHistory[date] = [];
+          }
+          workoutHistory[date].push({ exercise, reps, sets });
+          localStorage.setItem(
+            "workoutHistory",
+            JSON.stringify(workoutHistory)
+          );
+        }
 
         // Save custom exercise
         const group = localStorage.getItem("muscleGroup");
@@ -190,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Display workouts
+  // Shows all the workouts added to the page
   function displayWorkouts() {
     workoutList.innerHTML = "";
     workouts.forEach((workout) => {
@@ -256,7 +278,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   };
 
-  // Update language for home page
+  // Changes the button texts and title on the home page based on chosen language.
   function updateLanguage(lang) {
     const strings = languageStrings[lang];
     const h1 = document.querySelector("h1");
@@ -264,13 +286,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (backBtn) backBtn.textContent = strings.backBtn;
     if (chestBtn) chestBtn.textContent = strings.chestBtn;
     if (legsBtn) legsBtn.textContent = strings.legsBtn;
-    if (langSelector) langSelector.value = lang; // <- fix selector value
+    if (langSelector) langSelector.value = lang;
   }
 
-  // Update language for workout page
+  // Changes the button texts and title on the workout page based on chosen language.
   function updateWorkoutPageLanguage(lang) {
     const strings = languageStrings[lang];
-
     document.title = strings.workoutTitle;
 
     if (targetMuscles) {
@@ -293,22 +314,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const homeBtn = document.getElementById("homeBtn");
     if (homeBtn) homeBtn.textContent = strings.homeBtn;
 
-    if (langSelector) langSelector.value = lang; // <- fix selector value again
+    if (langSelector) langSelector.value = lang;
   }
 
   // Handle language selector
-  const langSelector = document.getElementById("language-selector");
   if (langSelector) {
-    langSelector.addEventListener("change", (e) => {
-      const selectedLang = e.target.value;
-      localStorage.setItem("language", selectedLang);
-      updateLanguage(selectedLang);
-      updateWorkoutPageLanguage(selectedLang);
+    langSelector.addEventListener("change", () => {
+      const newLang = langSelector.value;
+      localStorage.setItem("language", newLang);
+      updateLanguage(newLang);
+      updateWorkoutPageLanguage(newLang);
     });
   }
-
-  // Initialize language on page load
-  const savedLang = getCurrentLanguage();
-  updateLanguage(savedLang);
-  updateWorkoutPageLanguage(savedLang);
 });

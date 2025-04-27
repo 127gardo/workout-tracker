@@ -7,8 +7,8 @@
     <title>Today's workout</title>
   </head>
   <body>
-    <h1 id="targetMuscles"></h1>
     <a href="index.html"><button id="homeBtn">Home</button></a>
+    <h1 id="targetMuscles"></h1>
 
     <div class="labels">
       <label for="date">Date:</label>
@@ -26,20 +26,19 @@
         class="textbox"
         placeholder="Enter exercise"
       />
+      <label for="sets">Sets:</label>
+      <input type="number" id="sets" class="textbox" placeholder="Enter sets" />
 
       <label for="reps">Reps:</label>
       <input type="number" id="reps" class="textbox" placeholder="Enter reps" />
 
-      <label for="sets">Sets:</label>
-      <input type="number" id="sets" class="textbox" placeholder="Enter sets" />
-
       <button id="addWorkoutBtn">Add Workout</button>
-
-      <h2><b>Workout Log</b></h2>
-      <ul id="workoutList"></ul>
-      <!-- Add a button to clear custom exercises -->
-      <!-- <button id="clearCustomExercisesBtn">Clear Custom Exercises</button> -->
     </div>
+    <h2><b>Workout Log</b></h2>
+    <ul id="workoutList"></ul>
+    <a href="workouthistory.html"
+      ><button id="workoutHistoryBtn">Workout History</button></a
+    >
     <script src="index.js"></script>
   </body>
 </html>
