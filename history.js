@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const getCurrentLanguage = () => localStorage.getItem("language") || "en";
+
   const container = document.getElementById("historyContainer");
   const workoutHistory =
     JSON.parse(localStorage.getItem("workoutHistory")) || {}; // Tries to load saved workout history from localStorage. JSON.parse turns it back into usable JS object. || {} says "if there's no history saved, just use an empty object {} instead."
@@ -17,10 +19,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const ul = document.createElement("ul"); // Make an unordered list <ul> to hold each workout.
 
+    const language = getCurrentLanguage();
+    const unitOfMeasurement = language === "ja" ? "kg" : "lbs";
+
     workoutHistory[date].forEach((workout) => {
       // Go through all workouts saved under that date.
       const li = document.createElement("li"); // Make a <li> list item
-      li.textContent = `${workout.exercise}: ${workout.sets} sets x ${workout.reps} reps`; // Set the text to something like: "Bench Press: 3 sets x 10 reps"
+      li.textContent = `${workout.exercise}: ${workout.sets} sets of ${workout.reps} reps at ${workout.weight} ${unitOfMeasurement}`; // Set the text to something like: "Bench Press: 3 sets x 10 reps"
       ul.appendChild(li); // Add the <li> to the <ul>.
     });
 

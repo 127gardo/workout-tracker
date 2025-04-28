@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const getCurrentLanguage = () => localStorage.getItem("language") || "en";
   // langSelector connects to the dropdown menu on the page where the language is chosen
   const langSelector = document.getElementById("language-selector");
+  const language = getCurrentLanguage();
 
   // Finds the home page buttons
   const backBtn = document.getElementById("backbtn");
@@ -32,11 +33,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Grabs the workout page inputs and buttons
   const exerciseInput = document.getElementById("exercise");
+  const weightInput = document.getElementById("weight");
   const repsInput = document.getElementById("reps");
   const setsInput = document.getElementById("sets");
   const addWorkoutBtn = document.getElementById("addWorkoutBtn");
   const workoutList = document.getElementById("workoutList");
   const exerciseSelect = document.getElementById("exerciseSelect");
+  const unitOfMeasurement = language === "ja" ? "kg" : "lbs";
 
   // Default exercises
   const defaultExercises = {
@@ -162,12 +165,14 @@ document.addEventListener("DOMContentLoaded", () => {
   if (addWorkoutBtn) {
     addWorkoutBtn.addEventListener("click", () => {
       const exercise = exerciseInput.value.trim();
+      const weight = weightInput.value.trim();
       const reps = repsInput.value.trim();
       const sets = setsInput.value.trim();
 
-      if (exercise && reps && sets) {
-        workouts.push({ exercise, reps, sets });
+      if (exercise && weight && reps && sets) {
+        workouts.push({ exercise, weight, reps, sets });
         exerciseInput.value = "";
+        weightInput.value = "";
         repsInput.value = "";
         setsInput.value = "";
         displayWorkouts();
@@ -182,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (!workoutHistory[date]) {
             workoutHistory[date] = [];
           }
-          workoutHistory[date].push({ exercise, reps, sets });
+          workoutHistory[date].push({ exercise, weight, reps, sets });
           localStorage.setItem(
             "workoutHistory",
             JSON.stringify(workoutHistory)
@@ -217,7 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
     workoutList.innerHTML = "";
     workouts.forEach((workout) => {
       const li = document.createElement("li");
-      li.textContent = `${workout.exercise} - ${workout.reps} reps, ${workout.sets} sets`;
+      li.textContent = `${workout.exercise} - ${workout.sets} sets of ${workout.reps} reps at ${workout.weight} ${unitOfMeasurement}`;
       workoutList.appendChild(li);
     });
   }
