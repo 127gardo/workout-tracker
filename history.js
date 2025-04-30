@@ -25,8 +25,13 @@ document.addEventListener("DOMContentLoaded", () => {
     workoutHistory[date].forEach((workout) => {
       // Go through all workouts saved under that date.
       const li = document.createElement("li"); // Make a <li> list item
-      li.textContent = `${workout.exercise}: ${workout.sets} sets of ${workout.reps} reps at ${workout.weight} ${unitOfMeasurement}`; // Set the text to something like: "Bench Press: 3 sets x 10 reps"
-      ul.appendChild(li); // Add the <li> to the <ul>.
+      if (workout.duration == true) {
+        li.textContent = `${workout.exercise}: for a duration of ${workout.duration} and a distance of ${workout.distance} miles`;
+        ul.appendChild(li); // Add the <li> to the <ul>.
+      } else {
+        li.textContent = `${workout.exercise}: ${workout.sets} sets of ${workout.reps} reps at ${workout.weight} ${unitOfMeasurement}`; // Set the text to something like: "Bench Press: 3 sets x 10 reps"
+        ul.appendChild(li); // Add the <li> to the <ul>.
+      }
     });
 
     container.appendChild(ul); // After making all <li>s for a day, add the <ul> to the container under that date heading.

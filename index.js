@@ -1,14 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
   // This waits until entire HTML is finished loading before running JS.
   // Delete object error from early test
-  ["Back and Biceps", "Chest and Triceps", "Legs and Abs"].forEach((group) => {
-    const key = `custom-${group}`;
-    const saved = JSON.parse(localStorage.getItem(key)) || [];
-    const filtered = saved.filter((e) => typeof e === "string");
-    if (filtered.length !== saved.length) {
-      localStorage.setItem(key, JSON.stringify(filtered));
+  ["Back and Biceps", "Chest and Triceps", "Legs and Abs", "Cardio"].forEach(
+    (group) => {
+      const key = `custom-${group}`;
+      const saved = JSON.parse(localStorage.getItem(key)) || [];
+      const filtered = saved.filter((e) => typeof e === "string");
+      if (filtered.length !== saved.length) {
+        localStorage.setItem(key, JSON.stringify(filtered));
+      }
     }
-  });
+  );
 
   // getCurrentLanguage gets what language was most recently picked (saved in localStorage). If none, it defaults to English.
   const getCurrentLanguage = () => localStorage.getItem("language") || "en";
@@ -20,15 +22,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const backBtn = document.getElementById("backbtn");
   const chestBtn = document.getElementById("chestbtn");
   const legsBtn = document.getElementById("legsbtn");
+  const cardioBtn = document.getElementById("cardiobtn");
 
   // The following if statement saves your choice (Back/Chest/Legs) into localStorage upon clicking the button. Later pages will then remember which group you chose.
-  if (backBtn && chestBtn && legsBtn) {
+  if (backBtn && chestBtn && legsBtn && cardioBtn) {
     // the "if" here is a safety check to make sure all buttons are present, meaning we're on the right page.
     backBtn.onclick = () =>
       localStorage.setItem("muscleGroup", "Back and Biceps");
     chestBtn.onclick = () =>
       localStorage.setItem("muscleGroup", "Chest and Triceps");
     legsBtn.onclick = () => localStorage.setItem("muscleGroup", "Legs and Abs");
+    cardioBtn.onclick = () => localStorage.setItem("muscleGroup", "Cardio");
   }
 
   // Grabs the workout page inputs and buttons
@@ -40,6 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const workoutList = document.getElementById("workoutList");
   const exerciseSelect = document.getElementById("exerciseSelect");
   const unitOfMeasurement = language === "ja" ? "kg" : "lbs";
+  // const durationInput = document.getElementById("duration");
+  // const distanceInput = document.getElementById("distance");
 
   // Default exercises
   const defaultExercises = {
@@ -74,6 +80,19 @@ document.addEventListener("DOMContentLoaded", () => {
       "Sit Ups",
       "Decline Sit Ups",
       "Russian Twists",
+    ],
+    Cardio: [
+      "Burpees",
+      "Mountain Climbers",
+      "High Knees",
+      "Butt Kicks",
+      "Treadmill",
+      "Bike",
+      "Elliptical",
+      "Jump Rope",
+      "Stair Climbing",
+      "Outdoor Running",
+      "Swimming",
     ],
   };
 
@@ -110,6 +129,20 @@ document.addEventListener("DOMContentLoaded", () => {
       "シットアップ",
       "ディクラインシットアップ",
       "ロシアンツイスト",
+    ],
+
+    Cardio: [
+      "バーピー",
+      "マウンテンクライマー",
+      "ハイニー",
+      "バットキック",
+      "ランニングマシン",
+      "バイク",
+      "クロストレーナー",
+      "縄跳び",
+      "階段昇降",
+      "屋外ランニング",
+      "水泳",
     ],
   };
 
@@ -168,6 +201,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const weight = weightInput.value.trim();
       const reps = repsInput.value.trim();
       const sets = setsInput.value.trim();
+      // const duration = durationInput.value.trim();
+      // const distance = distanceInput.value.trim();
 
       if (exercise && weight && reps && sets) {
         workouts.push({ exercise, weight, reps, sets });
@@ -175,6 +210,9 @@ document.addEventListener("DOMContentLoaded", () => {
         weightInput.value = "";
         repsInput.value = "";
         setsInput.value = "";
+        // durationInput.value = "";
+        // distanceInput.value = "";
+
         displayWorkouts();
 
         // Save the workout under the selected date
@@ -187,7 +225,14 @@ document.addEventListener("DOMContentLoaded", () => {
           if (!workoutHistory[date]) {
             workoutHistory[date] = [];
           }
-          workoutHistory[date].push({ exercise, weight, reps, sets });
+          workoutHistory[date].push({
+            exercise,
+            weight,
+            reps,
+            sets,
+            // duration,
+            // distance,
+          });
           localStorage.setItem(
             "workoutHistory",
             JSON.stringify(workoutHistory)
@@ -331,4 +376,38 @@ document.addEventListener("DOMContentLoaded", () => {
       updateWorkoutPageLanguage(newLang);
     });
   }
+
+  // Timer for the cardio page
+  // let timer;
+  // let seconds = 0;
+
+  // function startTimer() {
+  //   if (!timer) {
+  //     timer = setInterval(() => {
+  //       seconds++;
+  //       document.getElementById("timer").textContent = formatTime(seconds);
+  //       document.getElementById("duration").value = formatTime(seconds);
+  //     }, 1000);
+  //   }
+  // }
+
+  // function pauseTimer() {
+  //   clearInterval(timer);
+  //   timer = null;
+  // }
+
+  // function resetTimer() {
+  //   clearInterval(timer);
+  //   timer = null;
+  //   seconds = 0;
+  //   document.getElementById("timer").textContent = "00:00:00";
+  //   document.getElementById("duration").value = "00:00:00";
+  // }
+
+  // function formatTime(s) {
+  //   const hrs = String(Math.floor(s / 3600)).padStart(2, "0");
+  //   const mins = String(Math.floor((s % 3600) / 60)).padStart(2, "0");
+  //   const secs = String(s % 60).padStart(2, "0");
+  //   return `${hrs}:${mins}:${secs}`;
+  //}
 });
