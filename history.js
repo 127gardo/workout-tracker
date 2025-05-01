@@ -21,11 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const language = getCurrentLanguage();
     const unitOfMeasurement = language === "ja" ? "kg" : "lbs";
+    const group = localStorage.getItem("muscleGroup");
 
     workoutHistory[date].forEach((workout) => {
       // Go through all workouts saved under that date.
       const li = document.createElement("li"); // Make a <li> list item
-      if (workout.duration == true) {
+      if (group == "Cardio") {
         li.textContent = `${workout.exercise}: for a duration of ${workout.duration} and a distance of ${workout.distance} miles`;
         ul.appendChild(li); // Add the <li> to the <ul>.
       } else {

@@ -36,16 +36,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Grabs the workout page inputs and buttons
-  const exerciseInput = document.getElementById("exercise");
-  const weightInput = document.getElementById("weight");
-  const repsInput = document.getElementById("reps");
-  const setsInput = document.getElementById("sets");
+  const exerciseInput = document.getElementById("exerciseInput");
+  const weightInput = document.getElementById("weightInput");
+  const repsInput = document.getElementById("repsInput");
+  const setsInput = document.getElementById("setsInput");
+  const distanceInput = document.getElementById("distanceInput");
+  const durationInput = document.getElementById("durationInput");
   const addWorkoutBtn = document.getElementById("addWorkoutBtn");
   const workoutList = document.getElementById("workoutList");
   const exerciseSelect = document.getElementById("exerciseSelect");
   const unitOfMeasurement = language === "ja" ? "kg" : "lbs";
-  // const durationInput = document.getElementById("duration");
-  // const distanceInput = document.getElementById("distance");
 
   // Default exercises
   const defaultExercises = {
@@ -82,17 +82,17 @@ document.addEventListener("DOMContentLoaded", () => {
       "Russian Twists",
     ],
     Cardio: [
-      "Burpees",
-      "Mountain Climbers",
-      "High Knees",
-      "Butt Kicks",
+      // "Burpees",
+      // "Mountain Climbers",
+      // "High Knees",
+      // "Butt Kicks",
       "Treadmill",
-      "Bike",
-      "Elliptical",
-      "Jump Rope",
-      "Stair Climbing",
+      // "Bike",
+      // "Elliptical",
+      // "Jump Rope",
+      // "Stair Climbing",
       "Outdoor Running",
-      "Swimming",
+      // "Swimming",
     ],
   };
 
@@ -130,19 +130,18 @@ document.addEventListener("DOMContentLoaded", () => {
       "ディクラインシットアップ",
       "ロシアンツイスト",
     ],
-
     Cardio: [
-      "バーピー",
-      "マウンテンクライマー",
-      "ハイニー",
-      "バットキック",
+      // "バーピー",
+      // "マウンテンクライマー",
+      // "ハイニー",
+      // "バットキック",
       "ランニングマシン",
-      "バイク",
-      "クロストレーナー",
-      "縄跳び",
-      "階段昇降",
+      // "バイク",
+      // "クロストレーナー",
+      // "縄跳び",
+      // "階段昇降",
       "屋外ランニング",
-      "水泳",
+      // "水泳",
     ],
   };
 
@@ -176,10 +175,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function showInputsForGroup(group) {
+    const strengthInputs = document.getElementById("strengthInputs");
+    const cardioInputs = document.getElementById("cardioInputs");
+
+    if (group === "Cardio") {
+      cardioInputs.style.display = "block";
+      strengthInputs.style.display = "none";
+    } else {
+      cardioInputs.style.display = "none";
+      strengthInputs.style.display = "block";
+    }
+  }
+
+  const group = localStorage.getItem("muscleGroup");
+  if (group) {
+    showInputsForGroup(group);
+  }
+
   // When on the workout page, this shows which muscle group is being trained and loads the exercise list for that group.
   const targetMuscles = document.getElementById("targetMuscles");
   if (targetMuscles) {
-    const group = localStorage.getItem("muscleGroup");
     targetMuscles.textContent = group || "Choose a workout";
     loadExercises(group);
   }
@@ -201,46 +217,44 @@ document.addEventListener("DOMContentLoaded", () => {
       const weight = weightInput.value.trim();
       const reps = repsInput.value.trim();
       const sets = setsInput.value.trim();
-      // const duration = durationInput.value.trim();
-      // const distance = distanceInput.value.trim();
+      const distance = distanceInput.value.trim();
+      const duration = durationInput.value.trim();
 
-      if (exercise && weight && reps && sets) {
-        workouts.push({ exercise, weight, reps, sets });
+      if (
+        exercise &&
+        ((group === "Cardio" && distance && duration) ||
+          (group !== "Cardio" && weight && reps && sets))
+      ) {
+        const workout = {
+          exercise,
+          weight,
+          reps,
+          sets,
+          distance,
+          duration,
+        };
+        workouts.push(workout);
+
+        // Clear inputs
         exerciseInput.value = "";
         weightInput.value = "";
         repsInput.value = "";
         setsInput.value = "";
-        // durationInput.value = "";
-        // distanceInput.value = "";
+        distanceInput.value = "";
+        durationInput.value = "";
 
         displayWorkouts();
 
-        // Save the workout under the selected date
+        // Save to localStorage under date
         const dateInput = document.getElementById("date");
+        const date = dateInput?.value || "unspecified";
         let workoutHistory =
           JSON.parse(localStorage.getItem("workoutHistory")) || {};
+        if (!workoutHistory[date]) workoutHistory[date] = [];
+        workoutHistory[date].push(workout);
+        localStorage.setItem("workoutHistory", JSON.stringify(workoutHistory));
 
-        if (dateInput && dateInput.value) {
-          const date = dateInput.value;
-          if (!workoutHistory[date]) {
-            workoutHistory[date] = [];
-          }
-          workoutHistory[date].push({
-            exercise,
-            weight,
-            reps,
-            sets,
-            // duration,
-            // distance,
-          });
-          localStorage.setItem(
-            "workoutHistory",
-            JSON.stringify(workoutHistory)
-          );
-        }
-
-        // Save custom exercise
-        const group = localStorage.getItem("muscleGroup");
+        // Save custom exercise if new
         if (
           !Array.from(exerciseSelect.options).some(
             (opt) => opt.value === exercise
@@ -257,7 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.setItem(customKey, JSON.stringify(saved));
         }
       } else {
-        alert("Please fill in all fields.");
+        alert("Please fill in all required fields.");
       }
     });
   }
@@ -267,7 +281,13 @@ document.addEventListener("DOMContentLoaded", () => {
     workoutList.innerHTML = "";
     workouts.forEach((workout) => {
       const li = document.createElement("li");
-      li.textContent = `${workout.exercise} - ${workout.sets} sets of ${workout.reps} reps at ${workout.weight} ${unitOfMeasurement}`;
+      let entry = `${workout.exercise} - `;
+      if (group === "Cardio") {
+        entry += `Distance: ${workout.distance} miles, Duration: ${workout.duration}`;
+      } else {
+        entry += `${workout.sets} sets x ${workout.reps} reps x ${workout.weight} ${unitOfMeasurement}`;
+      }
+      li.textContent = entry;
       workoutList.appendChild(li);
     });
   }
@@ -279,6 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
       backBtn: "Back and Bi",
       chestBtn: "Chest and Tri",
       legsBtn: "Legs and Abs",
+      cardioBtn: "Cardio",
       selectPlaceholder: "Select or enter your own below",
       workoutTitle: "Today's Workout",
       logWorkout: "Log Your Workout",
@@ -377,37 +398,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Timer for the cardio page
-  // let timer;
-  // let seconds = 0;
+  let startTime = null;
+  let timerInterval = null;
 
-  // function startTimer() {
-  //   if (!timer) {
-  //     timer = setInterval(() => {
-  //       seconds++;
-  //       document.getElementById("timer").textContent = formatTime(seconds);
-  //       document.getElementById("duration").value = formatTime(seconds);
-  //     }, 1000);
-  //   }
-  // }
+  const startBtn = document.getElementById("startTimerBtn");
+  const stopBtn = document.getElementById("stopTimerBtn");
+  // const durationInput = document.getElementById("durationInput");
 
-  // function pauseTimer() {
-  //   clearInterval(timer);
-  //   timer = null;
-  // }
+  if (startBtn && stopBtn && durationInput) {
+    startBtn.addEventListener("click", () => {
+      startTime = Date.now();
+      timerInterval = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        durationInput.value = new Date(elapsed).toISOString().substr(11, 8); // hh:mm:ss
+      }, 1000);
+      startBtn.disabled = true;
+      stopBtn.disabled = false;
+    });
 
-  // function resetTimer() {
-  //   clearInterval(timer);
-  //   timer = null;
-  //   seconds = 0;
-  //   document.getElementById("timer").textContent = "00:00:00";
-  //   document.getElementById("duration").value = "00:00:00";
-  // }
-
-  // function formatTime(s) {
-  //   const hrs = String(Math.floor(s / 3600)).padStart(2, "0");
-  //   const mins = String(Math.floor((s % 3600) / 60)).padStart(2, "0");
-  //   const secs = String(s % 60).padStart(2, "0");
-  //   return `${hrs}:${mins}:${secs}`;
-  //}
+    stopBtn.addEventListener("click", () => {
+      clearInterval(timerInterval);
+      startBtn.disabled = false;
+      stopBtn.disabled = true;
+    });
+  }
 });

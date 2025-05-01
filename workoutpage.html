@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
-    <title>Today's workout</title>
+    <title>Workout Log</title>
   </head>
   <body>
     <nav class="navbar">
@@ -21,7 +21,7 @@
       <label for="date">Date:</label>
       <input type="date" id="date" class="textbox" />
 
-      <h1><b>Log Your Workout</b></h1>
+      <!-- <h1><b>Log Your Workout</b></h1> -->
 
       <label for="exercise">Exercise:</label>
       <select name="" id="exerciseSelect">
@@ -29,22 +29,65 @@
       </select>
       <input
         type="text"
-        id="exercise"
+        id="exerciseInput"
         class="textbox"
         placeholder="Enter exercise"
       />
-      <label for="weight">Weight:</label>
-      <input
-        type="number"
-        id="weight"
-        class="textbox"
-        placeholder="Enter weight"
-      />
-      <label for="sets">Sets:</label>
-      <input type="number" id="sets" class="textbox" placeholder="Enter sets" />
 
-      <label for="reps">Reps:</label>
-      <input type="number" id="reps" class="textbox" placeholder="Enter reps" />
+      <!-- Strength Inputs -->
+      <div id="strengthInputs">
+        <label for="weight"
+          >Weight:
+          <input
+            type="number"
+            id="weightInput"
+            class="textbox"
+            placeholder="Enter weight"
+        /></label>
+
+        <label for="sets"
+          >Sets:
+          <input
+            type="number"
+            id="setsInput"
+            class="textbox"
+            placeholder="Enter sets"
+        /></label>
+
+        <label for="reps"
+          >Reps:
+          <input
+            type="number"
+            id="repsInput"
+            class="textbox"
+            placeholder="Enter reps"
+        /></label>
+      </div>
+
+      <!-- Cardio Inputs -->
+      <div id="cardioInputs" style="display: none">
+        <label for="distance"
+          >Distance:
+          <input
+            type="number"
+            id="distanceInput"
+            class="textbox"
+            placeholder="Enter distance in miles"
+            value="0"
+        /></label>
+
+        <label for="duration"
+          >Duration:
+          <input
+            type="text"
+            id="durationInput"
+            class="textbox"
+            placeholder="Enter duration"
+            value="00:00:00"
+        /></label>
+        <button id="startTimerBtn">Start</button>
+        <button id="stopTimerBtn" disabled>Stop</button>
+      </div>
 
       <button id="addWorkoutBtn">Add Workout</button>
     </div>
