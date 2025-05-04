@@ -45,7 +45,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const addWorkoutBtn = document.getElementById("addWorkoutBtn");
   const workoutList = document.getElementById("workoutList");
   const exerciseSelect = document.getElementById("exerciseSelect");
-  const unitOfMeasurement = language === "ja" ? "kg" : "lbs";
+  // const unitOfMeasurement = language === "ja" ? "kg" : "lbs";
+  const unitOfMeasurementInput = document.getElementById("unitOfMeasurement");
+
+  if (unitOfMeasurementInput) {
+    unitOfMeasurementInput.addEventListener("change", () => {
+      localStorage.setItem("unitOfMeasurement", unitOfMeasurementInput.value);
+    });
+  }
 
   // Default exercises
   const defaultExercises = {
@@ -285,7 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (group === "Cardio") {
         entry += `Distance: ${workout.distance} miles, Duration: ${workout.duration}`;
       } else {
-        entry += `${workout.sets} sets x ${workout.reps} reps x ${workout.weight} ${unitOfMeasurement}`;
+        entry += `${workout.sets} sets x ${workout.reps} reps x ${workout.weight} ${unitOfMeasurementInput.value}`;
       }
       li.textContent = entry;
       workoutList.appendChild(li);

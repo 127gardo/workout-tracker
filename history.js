@@ -20,7 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const ul = document.createElement("ul"); // Make an unordered list <ul> to hold each workout.
 
     const language = getCurrentLanguage();
-    const unitOfMeasurement = language === "ja" ? "kg" : "lbs";
+    // const unitOfMeasurement = language === "ja" ? "kg" : "lbs";
+    const unitOfMeasurementInput = localStorage.getItem(
+      "unitOfMeasurement" || "lbs"
+    );
     const group = localStorage.getItem("muscleGroup");
 
     workoutHistory[date].forEach((workout) => {
@@ -30,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         li.textContent = `${workout.exercise}: for a duration of ${workout.duration} and a distance of ${workout.distance} miles`;
         ul.appendChild(li); // Add the <li> to the <ul>.
       } else {
-        li.textContent = `${workout.exercise}: ${workout.sets} sets of ${workout.reps} reps at ${workout.weight} ${unitOfMeasurement}`; // Set the text to something like: "Bench Press: 3 sets x 10 reps"
+        li.textContent = `${workout.exercise}: ${workout.sets} sets of ${workout.reps} reps at ${workout.weight} ${unitOfMeasurementInput}`; // Set the text to something like: "Bench Press: 3 sets x 10 reps"
         ul.appendChild(li); // Add the <li> to the <ul>.
       }
     });
