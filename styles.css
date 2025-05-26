@@ -32,11 +32,29 @@ body:not(#tutorialPage) {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  justify-content: center;
+  align-items: center;
 }
 
 .textbox {
   border-radius: 15px;
   height: 3vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 2px black;
+}
+
+.weightSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#unitOfMeasurement {
+  border-radius: 5px;
+  border: solid 2px black;
 }
 
 #addWorkoutBtn,

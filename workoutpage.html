@@ -36,18 +36,20 @@
 
       <!-- Strength Inputs -->
       <div id="strengthInputs">
-        <label for="weight"
-          >Weight:
-          <input
-            type="number"
-            id="weightInput"
-            class="textbox"
-            placeholder="Enter weight"
-        /></label>
-        <select name="" id="unitOfMeasurement">
-          <option value="lbs">lbs</option>
-          <option value="kg">kg</option>
-        </select>
+        <div class="weightSection">
+          <label for="weight"
+            >Weight:
+            <input
+              type="number"
+              id="weightInput"
+              class="textbox"
+              placeholder="Enter weight"
+            /> </label
+          ><select name="" id="unitOfMeasurement">
+            <option value="lbs">lbs</option>
+            <option value="kg">kg</option>
+          </select>
+        </div>
 
         <label for="sets"
           >Sets:
@@ -93,7 +95,7 @@
         <button id="stopTimerBtn" disabled>Stop</button>
       </div>
 
-      <button id="addWorkoutBtn">Add Workout</button>
+      <button id="addWorkoutBtn">Add Exercise</button>
     </div>
     <h2><b>Workout Log</b></h2>
     <ul id="workoutList"></ul>
