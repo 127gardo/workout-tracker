@@ -43,6 +43,8 @@ body:not(#tutorialPage) {
   justify-content: center;
   align-items: center;
   border: solid 2px black;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 
 .weightSection {
