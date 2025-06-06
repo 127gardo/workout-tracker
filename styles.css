@@ -1,13 +1,13 @@
 body:not(#tutorialPage) {
   /* The body on the tutorial page is not affected by this. See #tutorialPage */
   margin-top: 80px;
-  background-color: rgb(185, 185, 185);
+  background-color: #c5d5cb;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   /* height: 100vh; Might remove later. Causes problems when you need to scroll the page */
-  font-family: sans-serif;
+  font-family: "Poppins", sans-serif;
   /* width: 100vh; */
 }
 
@@ -21,11 +21,13 @@ body:not(#tutorialPage) {
   width: 50vw; /*50% of the viewport width */
   height: 10vh; /* 50% of the viewport height */
   border-radius: 10px;
+  box-shadow: 0px 3px 10px black;
+  font-family: "Poppins", sans-serif;
 }
 
 .workoutbtn:hover {
   cursor: pointer;
-  background-color: rgb(152, 152, 152);
+  background-color: #a5a5a5;
 }
 
 .labels {
@@ -45,6 +47,7 @@ body:not(#tutorialPage) {
   border: solid 2px black;
   margin-top: 5px;
   margin-bottom: 10px;
+  box-shadow: 2px 2px 5px black;
 }
 
 .weightSection {
@@ -52,6 +55,13 @@ body:not(#tutorialPage) {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+#addWorkoutBtn {
+  background-color: #00c48c;
+  color: white;
+  font-family: "Poppins";
+  font-weight: bold;
 }
 
 #unitOfMeasurement {
@@ -63,19 +73,74 @@ body:not(#tutorialPage) {
 #homeBtn {
   border-radius: 15px;
   height: 5vh;
+  box-shadow: 2px 2px 5px black;
+}
+
+#homeBtn {
+  background-color: #2e2e2e;
+  color: white;
+  font-family: "Poppins";
+  font-weight: bold;
+}
+
+.menuBtn {
+  background-color: #2e2e2e;
+  color: white;
+  font-family: "Poppins";
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+#backbtn {
+  background-color: #2f5d62;
+  color: #e3e3e3;
+  font-family: "Poppins";
+  font-weight: bold;
+}
+
+#chestbtn {
+  background-color: #2f5d62;
+  color: #e3e3e3;
+  font-family: "Poppins";
+  font-weight: bold;
+}
+#legsbtn {
+  background-color: #2f5d62;
+  color: #e3e3e3;
+  font-family: "Poppins";
+  font-weight: bold;
+}
+
+#cardiobtn {
+  background-color: #2f5d62;
+  color: #e3e3e3;
+  font-family: "Poppins";
+  font-weight: bold;
+}
+
+#toBottom {
+  border-radius: 15px;
+  margin-top: 5px;
+  height: 3vh;
+  box-shadow: 2px 2px 5px black;
 }
 
 #workoutHistoryBtn {
   border-radius: 15px;
   height: 5vh;
   justify-content: center;
+  box-shadow: 2px 2px 5px black;
+  background-color: #c40038;
+  color: white;
+  font-family: "Poppins";
+  font-weight: bold;
 }
 
 #addWorkoutBtn:hover,
 #homeBtn:hover,
 #workoutHistoryBtn:hover {
   cursor: pointer;
-  background-color: rgb(152, 152, 152);
+  background-color: #a5a5a5;
 }
 
 #targetMuscles {
@@ -98,7 +163,7 @@ body:not(#tutorialPage) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .navbar {

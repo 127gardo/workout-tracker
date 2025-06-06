@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const toBottom = document.getElementById("toBottom");
+  document.addEventListener("click", () => {
+    window.scrollTo(0, document.body.scrollHeight);
+  });
+
   const getCurrentLanguage = () => localStorage.getItem("language") || "en";
 
   const container = document.getElementById("historyContainer");
